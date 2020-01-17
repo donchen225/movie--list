@@ -13,6 +13,7 @@ class App extends React.Component {
             addMovieInput: '' 
         };
     };
+    // 2.1. send get request from client to server
     // componentDiDMount() will call getMovies() as soon as page loads 
     componentDidMount() {
         this.getMovies();
@@ -25,7 +26,7 @@ class App extends React.Component {
     getMovies() {
         axios.get('/movies')
             .then((movies) => {
-                console.log(movies.data)
+                // console.log(movies.data)
                 var movieList = this.state.movieList;
                 movieList.push(movies.data);
                 this.setState({
@@ -35,9 +36,9 @@ class App extends React.Component {
             .catch((error) => { 
                 console.log(error);
             })
-            .finally(() => {
-                console.log("finally done!")
-            });
+            // .finally(() => {
+            //     console.log("finally done!")
+            // });
     }
 
     // addMovie() will send post request to server
