@@ -1,0 +1,28 @@
+body {
+  font-family: sans-serif, arial;
+}
+
+.movie {
+  font-weight: bold;
+  border: solid gray 1px;
+  padding: 15px;
+}
+
+#search-bar {
+  margin-bottom: 10px;
+}
+
+button {
+  margin-bottom: 5px;
+  border-radius: 5px;;
+  background: green;
+  color: white;
+  font-weight: bold;
+}
+
+/* #add-movie-button {
+} */
+
+/* .watched-button {
+
+} */

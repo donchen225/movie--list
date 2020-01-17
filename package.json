@@ -5,12 +5,28 @@
   "author": "Hack Reactor <curriculum.team@hackreactor.com>",
   "license": "UNLICENSED",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "schema": "mysql -u root -p < schema.sql",
+    "react-dev": "webpack -d --watch",
+    "start": "nodemon backend/index.js"
+  },
   "dependencies": {
+    "axios": "^0.19.1",
+    "express": "^4.17.1",
     "jquery": "^2.2.1",
     "lodash": "^4.6.1",
     "react": "^16.8.6",
-    "underscore": "^1.8.3"
+    "react-dom": "^16.12.0",
+    "underscore": "^1.8.3",
+    "morgan": "^1.9.1",
+    "mysql": "^2.17.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.23.0",
+    "nodemon": "^2.0.2",
+    "webpack": "^2.2.1"
+  }
 }
