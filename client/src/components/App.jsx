@@ -51,8 +51,8 @@ class App extends React.Component {
             watched: 'To Watch'
             })
             .then((response) => {
-                console.log("content-type", response.headers.content-type);
-                // console.log("response from server", response);
+                // console.log("content-type", response.headers.content-type);
+                console.log("response from server", response);
                 // this.setState({ movieList: response.data});
             })
             .catch((error) => {

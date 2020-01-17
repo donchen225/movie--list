@@ -3,7 +3,8 @@
 // 1.1 Create most basic running server (check that basic server can respond to a GET request, sent from browser to 'localhost:3000')
 const express = require('express');
 const path = require('path');
-const morgan = require('morgan');
+// const morgan = require('morgan'); 
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3000;
@@ -14,18 +15,18 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // Middleware that parses JSON
 app.use(express.json());
-
-// app.use(morgan('dev'));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
 
 //This checks that the server can respond to a basic GET request, sent from browser to 'localhost:3000/movies'
 app.get('/movies', (req, res) => {
-    console.log("Server received get request from client");
+    // res.send("Server received get request from client");
     res.send({title: "Titanic", watched: "To Watch"});
 });
 
 app.post('/movies', (req, res) => {
-    console.log("request", req);
-    console.log("req body", req.body);
+    // console.log("request", req);
+    console.log("req body", req.body.toString());
     // console.log(`${req.body} is being inserted to database`);
     res.send("Data has been successfully added");
 });
@@ -33,3 +34,4 @@ app.post('/movies', (req, res) => {
 //This initializes the server to start listening.
 app.listen(port, () => console.log(`App listening on port ${port}!`));
 
+// Question: How to read data of
