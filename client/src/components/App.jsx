@@ -26,8 +26,10 @@ class App extends React.Component {
         axios.get('/movies')
             .then((movies) => {
                 console.log(movies.data)
+                var movieList = this.state.movieList;
+                movieList.push(movies.data);
                 this.setState({
-                    movieList: movies.data
+                    movieList: movieList
                 });
             })
             .catch((error) => { 
@@ -44,32 +46,38 @@ class App extends React.Component {
         // if error, send status code 500 and end res
         // if successful, send status code 200 and movies data 
     addMovie(movie) {
-        // axios.post("/movies")
-        //     .then((response) => {
-        //         this.setState({ movieList: response.data});
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     });
-        event.preventDefault;
-        var alreadyExist = false;
-        this.state.movieList.forEach((item) => {
-            if (item.title === movie) {
-                alreadyExist = true;
-            }
-        })
-        if (!alreadyExist) {
-            var oldMovieList = this.state.movieList.slice();
-            var newMovieList = oldMovieList.concat([{
-                title: movie,
-                watched: 'To Watch'
-            }]);
-            this.setState({
-                movieList: newMovieList
-            }); 
-        } else {
-            alert('Movie already exists')
-        }
+        axios.post('/movies', {
+            title: movie,
+            watched: 'To Watch'
+            })
+            .then((response) => {
+                console.log("content-type", response.headers.content-type);
+                // console.log("response from server", response);
+                // this.setState({ movieList: response.data});
+            })
+            .catch((error) => {
+                console.log("error", error);
+            })
+            // .finally(() => {console.log("finally")})
+        // event.preventDefault;
+        // var alreadyExist = false;
+        // this.state.movieList.forEach((item) => {
+        //     if (item.title === movie) {
+        //         alreadyExist = true;
+        //     }
+        // })
+        // if (!alreadyExist) {
+        //     var oldMovieList = this.state.movieList.slice();
+        //     var newMovieList = oldMovieList.concat([{
+        //         title: movie,
+        //         watched: 'To Watch'
+        //     }]);
+        //     this.setState({
+        //         movieList: newMovieList
+        //     }); 
+        // } else {
+        //     alert('Movie already exists')
+        // }
     }
 
 
@@ -136,8 +144,7 @@ class App extends React.Component {
                     <AddMovie 
                     addMovieInput = {this.state.addMovieInput}
                     handleTextInputBox={this.handleTextInputBox.bind(this)}
-                    handleSubmit={this.handleSubmit.bind(this)}
-                    />
+                    handleSubmit={this.handleSubmit.bind(this)}/>
                 </div>
 
                 <div>

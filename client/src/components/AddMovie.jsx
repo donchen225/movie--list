@@ -6,7 +6,8 @@ const AddMovie = ({addMovieInput, handleTextInputBox, handleSubmit}) => (
             name="addMovieInput" 
             placeholder="Add movie title here" 
             value={addMovieInput} 
-            onChange={handleTextInputBox}/> 
+            onChange={handleTextInputBox}
+        /> 
         <button 
             name="addMovie" 
             id="add-movie-button" 
