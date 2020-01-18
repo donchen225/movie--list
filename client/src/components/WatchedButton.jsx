@@ -1,12 +1,12 @@
 import React from 'react';
 
-var WatchedButton = ({movie, toggleWatched}) => {
+var WatchedButton = ({movie}) => {
     // var style =  {
     //     backgroundColor: green
     // }
     return (
         <span className="watch-button">
-            <button type="button" className="button" onClick={(event) => toggleWatched(movie)}> Watched </button>
+            <button type="button" className="button"> Watched </button>
         </span>    
     )
 }

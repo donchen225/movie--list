@@ -1,11 +1,9 @@
 const express = require('express');
 const path = require('path');
-// const morgan = require('morgan'); 
-// const bodyParser = require('body-parser');
 
-const getMovie = require('./db.js');
-// const addMovie = require('./db.js');
-
+const { getMovies } = require('./db.js');
+const { addMovies } = require('./db.js');
+console.log(addMovies);
 const app = express();
 const port = 3000;
 
@@ -16,8 +14,8 @@ app.use(express.json());
 
 app.get('/movies', (req, res) => {
     // res.send({title: "Titanic", watched: "To Watch"});
-    console.log('*******************************************', getMovie);
-    getMovie((err, movies) => {
+    console.log('******************************', getMovie);
+    getMovies((err, movies) => {
         if (err) {
             console.log(err);
             res.status(500).end();
@@ -29,18 +27,18 @@ app.get('/movies', (req, res) => {
     }); 
 });
 
-// app.post('/movies', (req, res) => {
-//     const movie = req.body;
-//     console.log("movie", movie);
-//     addMovie(movie, (err) => {
-//         if (err) {
-//             console.log(err);
-//             res.status(500).end();
-//         } else {
-//             console.log("Server is successful in inserting movies to database");
-//             res.status(200).end(); 
-//         }
-//     })
-// });
+app.post('/movies', (req, res) => {
+    const movie = req.body;
+    // console.log("movie", movie);
+    addMovies(movie, (err) => {
+        if (err) {
+            console.log(err);
+            res.status(500).end();
+        } else {
+            console.log("Server is successful in inserting movies to database");
+            res.status(200).end(); 
+        }
+    })
+});
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));

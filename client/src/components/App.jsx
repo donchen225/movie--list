@@ -16,8 +16,9 @@ class App extends React.Component {
     // 2.1. send get request from client to server
     // componentDiDMount() will call getMovies() as soon as page loads 
     componentDidMount() {
+        console.log("is called");
         this.getMovies();
-    }
+    };
 
     // getMovies() will send get request to server 
         // server will respond w/ SQL query, "SELECT * FROM movies", which will get all movies from database
@@ -38,25 +39,32 @@ class App extends React.Component {
                 console.log(error);
             })
     }
-
+    
     // addMovie() will send post request to server
         // server will respond w/ SQL query, "INSERT INTO movies (title, watched)..."
         // which will add the data to the database 
         // if error, send status code 500 and end res
         // if successful, send status code 200 and movies data 
-    // addMovie(movie) {
-    //     axios.post('/movies', {
-    //         title: movie,
-    //         watched: 'To Watch'
-    //         })
-    //         .then((response) => {
-    //             // console.log("content-type", response.headers.content-type);
-    //             console.log("response from server", response);
-    //             // this.setState({ movieList: response.data});
-    //         })
-    //         .catch((error) => {
-    //             console.log("error", error);
-    //         })
+    addMovie(movie) {
+        axios.post('/movies', {
+            title: movie,
+            watched: 'To Watch'
+            })
+            .then(() => {
+                // console.log("response.data from server", response.data);
+                var movieList = this.state.movieList;
+                movieList.push({
+                    title: movie,
+                    watched: 'To Watch'
+                })
+                this.setState({
+                    movieList: movieList
+                });
+            })
+            .catch((error) => {
+                console.log("error", error);
+            })
+    };
         // event.preventDefault;
         // var alreadyExist = false;
         // this.state.movieList.forEach((item) => {
@@ -76,8 +84,6 @@ class App extends React.Component {
         // } else {
         //     alert('Movie already exists')
         // }
-    // }
-
 
     // handleTextInput method will set state of the specific event.target.name (searchInput or addMovieInput)
     handleTextInputBox(event) {
@@ -118,22 +124,22 @@ class App extends React.Component {
 
     // toggleWatched method should take in a movie and toggle the movie's watched property (initialized to maybe false)
     // It should be called onClick of the movie's watchedButton.
-    toggleWatched(item) {
-        var movieList = this.state.movieList;
-        for (var i = 0; i < movieList.length; i++) {
-            if (movieList[i].title === item) {
-                if (movieList[i].watched === 'To Watch') {
-                    console.log("entered");
-                    movieList[i].splice(i, 1, {title: movieList[i].title, watched: 'Watched'} );
-                } else if (movieList[i].watched === 'Watched') {
-                    movieList[i].splice(i, 1, {title: movieList[i].title, watched: 'To Watch'} );
-                }
-            }
-        };
-        this.setState({
-            movieList: movieList
-        });
-    } 
+    // toggleWatched(item) {
+    //     var movieList = this.state.movieList;
+    //     for (var i = 0; i < movieList.length; i++) {
+    //         if (movieList[i].title === item) {
+    //             if (movieList[i].watched === 'To Watch') {
+    //                 console.log("entered");
+    //                 movieList[i].splice(i, 1, {title: movieList[i].title, watched: 'Watched'} );
+    //             } else if (movieList[i].watched === 'Watched') {
+    //                 movieList[i].splice(i, 1, {title: movieList[i].title, watched: 'To Watch'} );
+    //             }
+    //         }
+    //     };
+    //     this.setState({
+    //         movieList: movieList
+    //     });
+    // } 
 
     render() {
         return (
@@ -156,7 +162,7 @@ class App extends React.Component {
                 <div>
                     <MovieList 
                     movieList = {this.state.movieList} 
-                    toggleWatched = {this.toggleWatched.bind(this)}/>
+                    />
                 </div>    
             </div>
         )
