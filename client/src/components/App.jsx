@@ -25,20 +25,18 @@ class App extends React.Component {
         // if successful, send status 200 and movies data
     getMovies() {
         axios.get('/movies')
-            .then((movies) => {
-                // console.log(movies.data)
-                var movieList = this.state.movieList;
-                movieList.push(movies.data);
+            .then((response) => {
+                var movies = response.data;
+                console.log("movies:", movies);
+                // var movieList = this.state.movieList;
+                // movieList.push(movies.data);
                 this.setState({
-                    movieList: movieList
+                    movieList: movies
                 });
             })
             .catch((error) => { 
                 console.log(error);
             })
-            // .finally(() => {
-            //     console.log("finally done!")
-            // });
     }
 
     // addMovie() will send post request to server
@@ -46,20 +44,19 @@ class App extends React.Component {
         // which will add the data to the database 
         // if error, send status code 500 and end res
         // if successful, send status code 200 and movies data 
-    addMovie(movie) {
-        axios.post('/movies', {
-            title: movie,
-            watched: 'To Watch'
-            })
-            .then((response) => {
-                // console.log("content-type", response.headers.content-type);
-                console.log("response from server", response);
-                // this.setState({ movieList: response.data});
-            })
-            .catch((error) => {
-                console.log("error", error);
-            })
-            // .finally(() => {console.log("finally")})
+    // addMovie(movie) {
+    //     axios.post('/movies', {
+    //         title: movie,
+    //         watched: 'To Watch'
+    //         })
+    //         .then((response) => {
+    //             // console.log("content-type", response.headers.content-type);
+    //             console.log("response from server", response);
+    //             // this.setState({ movieList: response.data});
+    //         })
+    //         .catch((error) => {
+    //             console.log("error", error);
+    //         })
         // event.preventDefault;
         // var alreadyExist = false;
         // this.state.movieList.forEach((item) => {
@@ -79,7 +76,7 @@ class App extends React.Component {
         // } else {
         //     alert('Movie already exists')
         // }
-    }
+    // }
 
 
     // handleTextInput method will set state of the specific event.target.name (searchInput or addMovieInput)
