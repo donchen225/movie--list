@@ -17,3 +17,9 @@ CREATE TABLE movies (
   watched VARCHAR(100) NOT NUll,
   PRIMARY KEY (id)
 );
+
+INSERT INTO movies (item_title, watched) VALUES ('Mean Girls', 'To Watch');
+INSERT INTO movies (item_title, watched) VALUES ('Hackers', 'To Watch');
+INSERT INTO movies (item_title, watched) VALUES ('The Grey', 'To Watch');
+INSERT INTO movies (item_title, watched) VALUES ('Sunshine', 'To Watch');
+INSERT INTO movies (item_title, watched) VALUES ('Ex Machina', 'To Watch');

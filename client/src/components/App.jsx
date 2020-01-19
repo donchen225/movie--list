@@ -8,7 +8,8 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            movieList: this.props.movieList, 
+            // movieList: this.props.movieList, 
+            movieList: [],
             searchInput: '',
             addMovieInput: '' 
         };
@@ -16,7 +17,6 @@ class App extends React.Component {
     // 2.1. send get request from client to server
     // componentDiDMount() will call getMovies() as soon as page loads 
     componentDidMount() {
-        console.log("is called");
         this.getMovies();
     };
 
@@ -27,12 +27,9 @@ class App extends React.Component {
     getMovies() {
         axios.get('/movies')
             .then((response) => {
-                var movies = response.data;
-                console.log("movies:", movies);
-                // var movieList = this.state.movieList;
-                // movieList.push(movies.data);
+                var moviesData = response.data;
                 this.setState({
-                    movieList: movies
+                    movieList: moviesData
                 });
             })
             .catch((error) => { 
@@ -45,46 +42,20 @@ class App extends React.Component {
         // which will add the data to the database 
         // if error, send status code 500 and end res
         // if successful, send status code 200 and movies data 
-    addMovie(movie) {
-        axios.post('/movies', {
-            title: movie,
-            watched: 'To Watch'
-            })
+    addMovie(title) {
+        var movieData = {item_title: title, watched: 'To Watch'};
+        axios.post('/movies', movieData)
             .then(() => {
-                // console.log("response.data from server", response.data);
-                var movieList = this.state.movieList;
-                movieList.push({
-                    title: movie,
-                    watched: 'To Watch'
-                })
                 this.setState({
-                    movieList: movieList
+                    movieList: this.state.movieList.concat({item_title: title, watched: 'To Watch'}),
+                    addMovieInput: ''
                 });
             })
             .catch((error) => {
                 console.log("error", error);
             })
     };
-        // event.preventDefault;
-        // var alreadyExist = false;
-        // this.state.movieList.forEach((item) => {
-        //     if (item.title === movie) {
-        //         alreadyExist = true;
-        //     }
-        // })
-        // if (!alreadyExist) {
-        //     var oldMovieList = this.state.movieList.slice();
-        //     var newMovieList = oldMovieList.concat([{
-        //         title: movie,
-        //         watched: 'To Watch'
-        //     }]);
-        //     this.setState({
-        //         movieList: newMovieList
-        //     }); 
-        // } else {
-        //     alert('Movie already exists')
-        // }
-
+    
     // handleTextInput method will set state of the specific event.target.name (searchInput or addMovieInput)
     handleTextInputBox(event) {
         this.setState({
@@ -97,17 +68,17 @@ class App extends React.Component {
     searchMovies(searchTerm) {
         var matches = [];
         this.state.movieList.forEach( (movie) => {
-            if (movie.title.toLowerCase().includes(searchTerm.toLowerCase()) ) {
+            if (movie.item_title.toLowerCase().includes(searchTerm.toLowerCase()) ) {
                 matches.push(movie);
             }
         });
         if (matches.length === 0) {
-            alert("no movie by that name found")
-        } else {
-            this.setState({
-                movieList: matches
-            })
-        };
+            alert("No movie by that name found")
+        } 
+        this.setState({
+            movieList: matches,
+            searchInput: ''
+        });
     };
 
     // handleSubmit method will call the event.target.name method (searchMovies or addMovie) 
@@ -124,22 +95,32 @@ class App extends React.Component {
 
     // toggleWatched method should take in a movie and toggle the movie's watched property (initialized to maybe false)
     // It should be called onClick of the movie's watchedButton.
-    // toggleWatched(item) {
-    //     var movieList = this.state.movieList;
-    //     for (var i = 0; i < movieList.length; i++) {
-    //         if (movieList[i].title === item) {
-    //             if (movieList[i].watched === 'To Watch') {
-    //                 console.log("entered");
-    //                 movieList[i].splice(i, 1, {title: movieList[i].title, watched: 'Watched'} );
-    //             } else if (movieList[i].watched === 'Watched') {
-    //                 movieList[i].splice(i, 1, {title: movieList[i].title, watched: 'To Watch'} );
-    //             }
-    //         }
-    //     };
-    //     this.setState({
-    //         movieList: movieList
-    //     });
-    // } 
+    toggleWatched(title) {
+        axios.put('/movies', title)
+            .then((res) => {
+                // send back as response all the data and set to state
+                // or call getMovies() 
+                console.log("request is successful")
+                // this.getMovies();
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        // var movieList = this.state.movieList;
+        // for (var i = 0; i < movieList.length; i++) {
+        //     if (movieList[i].title === item) {
+        //         if (movieList[i].watched === 'To Watch') {
+        //             console.log("entered");
+        //             movieList[i].splice(i, 1, {title: movieList[i].title, watched: 'Watched'} );
+        //         } else if (movieList[i].watched === 'Watched') {
+        //             movieList[i].splice(i, 1, {title: movieList[i].title, watched: 'To Watch'} );
+        //         }
+        //     }
+        // };
+        // this.setState({
+        //     movieList: movieList
+        // });
+    } 
 
     render() {
         return (
@@ -162,6 +143,7 @@ class App extends React.Component {
                 <div>
                     <MovieList 
                     movieList = {this.state.movieList} 
+                    toggleWatched = {this.toggleWatched.bind(this)}
                     />
                 </div>    
             </div>

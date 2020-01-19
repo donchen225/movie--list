@@ -1,11 +1,11 @@
 import React from 'react';
 import WatchedButton from "./WatchedButton.jsx";
 
-const MovieListEntry = ({movie}) => {
+const MovieListEntry = ({movie, toggleWatched}) => {
     return (
         <div className="movie"> 
-            <div> {movie.title}
-                <WatchedButton movie={movie}/>
+            <div> {movie.item_title}
+                <WatchedButton movie={movie} toggleWatched={toggleWatched}/>
             </div>
         </div> 
         
