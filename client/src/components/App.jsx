@@ -14,8 +14,7 @@ class App extends React.Component {
         };
     };
 
-    // componentDiDMount() will get allMovies and set to them to state 
-    // as soon as page loads 
+    // componentDiDMount() will get allMovies and set to them to state as soon as page loads 
     componentDidMount() {
         axios.get('/movies')
         .then((response) => {
@@ -29,8 +28,10 @@ class App extends React.Component {
         })
     };
     
-    // post request
+    // addMovie will send a post request to add movie to database, 
+    // with properties title and watched, initialized to "To Watch"
     addMovie(title) {
+        console.log('adding movie...')
         var movieData = {item_title: title, watched: 'To Watch'};
         axios.post('/movies', movieData)
             .then(() => {
@@ -54,8 +55,9 @@ class App extends React.Component {
     // searchMovies takes an input query and searches the initial movieList in state for any
     // matching titles and then updates the movieList to newfound matches   
     searchMovies(query) {
+        console.log('searching...')
         var matches = this.state.movieList.filter(movieData => (
-            movieData.title.toLowerCase().includes(query.toLowerCase())
+            movieData.item_title.toLowerCase().includes(query.toLowerCase())
         ))
         this.setState({
             movieList: matches,
@@ -80,10 +82,7 @@ class App extends React.Component {
     toggleWatched(title) {
         axios.put('/movies', title)
             .then((res) => {
-                // send back as response all the data and set to state
-                // or call getMovies() 
                 console.log("request is successful")
-                // this.getMovies();
                 this.setState({movieList: res.data});
             })
             .catch((error) => {
@@ -94,27 +93,21 @@ class App extends React.Component {
     render() {
         return (
             <div className = "main-container"> 
-                <div>
-                    <AddMovie 
-                    addMovieInput = {this.state.addMovieInput}
-                    handleTextInputBox={this.handleTextInputBox.bind(this)}
-                    handleSubmit={this.handleSubmit.bind(this)}/>
-                </div>
+                <AddMovie 
+                addMovieInput = {this.state.addMovieInput}
+                handleTextInputBox={this.handleTextInputBox.bind(this)}
+                handleSubmit={this.handleSubmit.bind(this)}/>
 
-                <div>
-                    <SearchBar 
-                    searchInput = {this.state.searchInput}
-                    handleTextInputBox = {this.handleTextInputBox.bind(this)} 
-                    handleSubmit = {this.handleSubmit.bind(this)} 
-                    />
-                </div>
+                <SearchBar 
+                searchInput = {this.state.searchInput}
+                handleTextInputBox = {this.handleTextInputBox.bind(this)} 
+                handleSubmit = {this.handleSubmit.bind(this)} 
+                />
                 
-                <div>
-                    <MovieList 
-                    movieList = {this.state.movieList} 
-                    toggleWatched = {this.toggleWatched.bind(this)}
-                    />
-                </div>    
+                <MovieList 
+                movieList = {this.state.movieList} 
+                toggleWatched = {this.toggleWatched.bind(this)}
+                />   
             </div>
         )
     }
