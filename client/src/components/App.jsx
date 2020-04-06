@@ -8,40 +8,28 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            // movieList: this.props.movieList, 
             movieList: [],
             searchInput: '',
             addMovieInput: '' 
         };
     };
-    // 2.1. send get request from client to server
-    // componentDiDMount() will call getMovies() as soon as page loads 
-    componentDidMount() {
-        this.getMovies();
-    };
 
-    // getMovies() will send get request to server 
-        // server will respond w/ SQL query, "SELECT * FROM movies", which will get all movies from database
-        // if error, send status 500 (server error) and end response 
-        // if successful, send status 200 and movies data
-    getMovies() {
+    // componentDiDMount() will get allMovies and set to them to state 
+    // as soon as page loads 
+    componentDidMount() {
         axios.get('/movies')
-            .then((response) => {
-                var moviesData = response.data;
-                this.setState({
-                    movieList: moviesData
-                });
-            })
-            .catch((error) => { 
-                console.log(error);
-            })
-    }
+        .then((response) => {
+            var moviesData = response.data;
+            this.setState({
+                movieList: moviesData
+            });
+        })
+        .catch((error) => { 
+            console.log(error);
+        })
+    };
     
-    // addMovie() will send post request to server
-        // server will respond w/ SQL query, "INSERT INTO movies (title, watched)..."
-        // which will add the data to the database 
-        // if error, send status code 500 and end res
-        // if successful, send status code 200 and movies data 
+    // post request
     addMovie(title) {
         var movieData = {item_title: title, watched: 'To Watch'};
         axios.post('/movies', movieData)
@@ -63,22 +51,16 @@ class App extends React.Component {
         });
     };
 
-    // searchMovies method will take in a movie and search if there are any matching movie titles in movieList
-    // If no matches, send an alert. Else, update the state of movieList to the matches 
-    searchMovies(searchTerm) {
-        var matches = [];
-        this.state.movieList.forEach( (movie) => {
-            if (movie.item_title.toLowerCase().includes(searchTerm.toLowerCase()) ) {
-                matches.push(movie);
-            }
-        });
-        if (matches.length === 0) {
-            alert("No movie by that name found")
-        } 
+    // searchMovies takes an input query and searches the initial movieList in state for any
+    // matching titles and then updates the movieList to newfound matches   
+    searchMovies(query) {
+        var matches = this.state.movieList.filter(movieData => (
+            movieData.title.toLowerCase().includes(query.toLowerCase())
+        ))
         this.setState({
             movieList: matches,
             searchInput: ''
-        });
+        })
     };
 
     // handleSubmit method will call the event.target.name method (searchMovies or addMovie) 
@@ -102,24 +84,11 @@ class App extends React.Component {
                 // or call getMovies() 
                 console.log("request is successful")
                 // this.getMovies();
+                this.setState({movieList: res.data});
             })
             .catch((error) => {
                 console.log(error);
-            })
-        // var movieList = this.state.movieList;
-        // for (var i = 0; i < movieList.length; i++) {
-        //     if (movieList[i].title === item) {
-        //         if (movieList[i].watched === 'To Watch') {
-        //             console.log("entered");
-        //             movieList[i].splice(i, 1, {title: movieList[i].title, watched: 'Watched'} );
-        //         } else if (movieList[i].watched === 'Watched') {
-        //             movieList[i].splice(i, 1, {title: movieList[i].title, watched: 'To Watch'} );
-        //         }
-        //     }
-        // };
-        // this.setState({
-        //     movieList: movieList
-        // });
+            }) 
     } 
 
     render() {

@@ -6,7 +6,7 @@ var WatchedButton = ({movie, toggleWatched}) => {
     // }
     return (
         <span className="watch-button">
-            <button type="button" className="button" onClick={() => toggleWatched(movie.item_title)}> Watched </button>
+            <button type="button" className="button" onClick={() => toggleWatched(movie.item_title)}> {movie.watched} </button>
         </span>    
     )
 }

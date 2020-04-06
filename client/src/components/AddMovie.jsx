@@ -2,9 +2,8 @@ import React from 'react';
 
 const AddMovie = ({addMovieInput, handleTextInputBox, handleSubmit}) => (
     <div id="add-movie-bar">
-        <input 
-            name="addMovieInput" 
-            placeholder="Add movie title here" 
+        <input name="addMovieInput" 
+            placeholder="Add movie..." 
             value={addMovieInput} 
             onChange={handleTextInputBox}
         /> 

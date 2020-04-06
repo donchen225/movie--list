@@ -14,6 +14,7 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 app.use(express.json());
 // app.use(bodyParser.json({ extended: false }))
 
+// handle get request for all movies
 app.get('/movies', (req, res) => {
     console.log('*************************************')
     getMovies((err, movies) => {
@@ -25,6 +26,20 @@ app.get('/movies', (req, res) => {
     }); 
 });
 
+// handle get request for one movie
+app.get('/movies/:item_title', (req, res) => {
+    console.log('***************************************');
+    console.log(req.url);
+    getOneMovie((err, movie) => {
+        if (err)  {
+            res.status(500).end();
+        } else {
+            res.status(200).send(movie);
+        }
+    })
+})
+
+// handle post request
 app.post('/movies', (req, res) => {
     console.log('***************************************');
     const movieData = req.body;
@@ -37,14 +52,16 @@ app.post('/movies', (req, res) => {
     });
 });
 
+// handle put request 
 app.put('/movies', (req, res) => {
+    console.log('***************************************');
     // res.send("Request reach server");
     const title = req.body;
-    updateWatched(title, (err) => {
+    updateWatched(title, (err, results) => {
         if (err) {
             res.status(500).end();
         } else {
-            res.status(200).send(movies);
+            res.status(200).send(results);
         }
     });
 });
