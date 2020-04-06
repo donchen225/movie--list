@@ -14,10 +14,28 @@ body {
 
 button {
   margin-bottom: 5px;
-  border-radius: 5px;;
-  background: green;
-  color: white;
+  border-radius: 5px;
   font-weight: bold;
+}
+
+.green {
+  background: green;
+}
+
+.small {
+  color: white;
+}
+
+.white {
+  background: white;
+}
+
+.big {
+  color: black;
+}
+
+.inline {
+  display: inline block
 }
 
 /* #add-movie-button {

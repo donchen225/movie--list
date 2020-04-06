@@ -1,6 +1,8 @@
 import AddMovie from './AddMovie.jsx';
 import SearchBar from './SearchBar.jsx';
 import MovieList from './MovieList.jsx';
+import WatchedListButtons from './WatchedListButtons.jsx';
+
 import React from 'react';
 import axios from 'axios';
 
@@ -44,6 +46,7 @@ class App extends React.Component {
         });
     };
     searchMovies(query) {
+        console.log('searching...')
         var matches = this.state.movieList.filter(movieData => (
             movieData.item_title.toLowerCase().includes(query.toLowerCase())
         ))
@@ -55,7 +58,7 @@ class App extends React.Component {
     // toggleWatched method should take in a movie and toggle the movie's watched property (initialized to maybe false)
     // It should be called onClick of the movie's watchedButton.
     toggleWatched(title) {
-        axios.put('/movies', title)
+        axios.patch('/movies', title)
             .then((res) => {
                 console.log("request is successful")
                 this.setState({movieList: res.data});
@@ -64,6 +67,21 @@ class App extends React.Component {
                 console.log(error);
             }) 
     } 
+    showWatchedList() {
+        var watchedList = this.state.movieList.filter(movieData => (movieData.watched.includes('Watched')))
+        console.log('watchedList', watchedList);
+        this.setState({
+            movieList: watchedList
+        })
+    }
+
+    showToWatchList() {
+        var toWatchList =  this.state.movieList.filter(movieData => (movieData.watched.includes('To Watch')))
+        console.log('toWatchList', toWatchList);
+        this.setState({
+            movieList: toWatchList
+        })
+    }
     render() {
         return (
             <div className = "main-container"> 
@@ -71,6 +89,10 @@ class App extends React.Component {
                 addMovieInput = {this.state.addMovieInput}
                 addMovie = {this.addMovie.bind(this)}
                 handleTextInputBox={this.handleTextInputBox.bind(this)}/>
+
+                <WatchedListButtons
+                showWatchedList = {this.showWatchedList.bind(this)}
+                showToWatchList={this.showToWatchList.bind(this)}/>
 
                 <SearchBar 
                 searchInput = {this.state.searchInput}

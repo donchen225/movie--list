@@ -29,7 +29,6 @@ app.get('/movies', (req, res) => {
 // handle get request for one movie
 app.get('/movies/:item_title', (req, res) => {
     console.log('***************************************');
-    console.log(req.url);
     getOneMovie((err, movie) => {
         if (err)  {
             res.status(500).end();
@@ -53,11 +52,9 @@ app.post('/movies', (req, res) => {
 });
 
 // handle put request 
-app.put('/movies', (req, res) => {
+app.patch('/movies/:item_title', (req, res) => {
     console.log('***************************************');
-    // res.send("Request reach server");
-    const title = req.body;
-    updateWatched(title, (err, results) => {
+    updateWatched((err, results) => {
         if (err) {
             res.status(500).end();
         } else {
