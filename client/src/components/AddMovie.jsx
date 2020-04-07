@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AddMovie = ({addMovieInput, handleTextInputBox, handleSubmit}) => (
+const AddMovie = ({addMovieInput, handleTextInputBox, addMovie}) => (
     <div id="add-movie-bar">
         <input name="addMovieInput" 
             placeholder="Add movie..." 
@@ -12,7 +12,7 @@ const AddMovie = ({addMovieInput, handleTextInputBox, handleSubmit}) => (
             id="add-movie-button" 
             type="button" 
             className="button" 
-            onClick={handleSubmit}> Add 
+            onClick={() => {addMovie(addMovieInput)}}> Add 
         </button>
     </div>
 );

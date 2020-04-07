@@ -28,11 +28,12 @@ class App extends React.Component {
         })
     };
     addMovie(title) {
+        console.log('adding...')
         var movieData = {item_title: title, watched: 'To Watch'};
         axios.post('/movies', movieData)
             .then(() => {
                 this.setState({
-                    movieList: this.state.movieList.concat({item_title: title, watched: 'To Watch'}),
+                    movieList: this.state.movieList.concat({item_title: title, watched: true}),
                     addMovieInput: ''
                 });
             })
@@ -57,8 +58,9 @@ class App extends React.Component {
     };
     // toggleWatched method should take in a movie and toggle the movie's watched property (initialized to maybe false)
     // It should be called onClick of the movie's watchedButton.
-    toggleWatched(title) {
-        axios.patch('/movies', title)
+    toggleWatched(movieData) {
+        console.log('toggledWatched called')
+        axios.patch('/movies', movieData)
             .then((res) => {
                 console.log("request is successful")
                 this.setState({movieList: res.data});

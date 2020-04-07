@@ -23,7 +23,7 @@ const getMovies = (callback) => {
             console.log(`Error in getting data from DB`, err);
             callback(err)
         } else {
-            console.log(`${movies} successfully retrieved from DB`);
+            // console.log(`${movies} successfully retrieved from DB`);
             callback(null, movies);
         }
     })
@@ -34,8 +34,6 @@ const addMovie = (movieData, callback) => {
     const query = 
         `INSERT INTO movies (item_title, watched) 
         VALUES (?, ?);`;
-        // WHERE NOT EXISTS 
-            // (SELECT item_title FROM movies WHERE item_title=${movieData.item_title});`;
     connection.query(query, [movieData.item_title, movieData.watched], (err) => {
         if (err) {
             console.log(`Error inserting ${movieData} to DB`, err);
@@ -58,37 +56,18 @@ const addMovie = (movieData, callback) => {
 //     })
 // }
 
-const updateWatched = (title, callback) => {
-    connection.query(`SELECT watched FROM movies WHERE item_title = ${title};`, (err, results) => {
+const updateWatched = (movieData, callback) => {
+    const query = `UPDATE movies SET watched = !? WHERE id = ?`;
+    connection.query(query, [movieData.watched, movieData.id], (err, movie) => {
         if (err) {
-            console.log(`Error in selecting watched property of ${title}`);
+            console.log(`Error in updating watched property of ${movieData.item_title}`);
             callback(err);
         } else {
-            if (results === 'To Watch') {
-                connection.query(`UPDATE movies SET watched = 'Watched' WHERE item_title = ${title}';`, (err) => {
-                    if (err) {
-                        console.log(`Error in updating 'To Watch' to 'Watched'`);
-                        callback(err);
-                    } else {
-                        console.log(`'To Watch' successfuly updated to 'Watched' in DB`);
-                        callback(null);
-                    }
-                })
-            } else if(results === 'Watched') {
-                connection.query(`UPDATE movies SET watched = 'To Watch' WHERE item_title = ${title}';`, (err, results) => {
-                    if (err) {
-                        console.log(`Error in updating 'Watched' to 'To Watch'`);
-                        callback(err);
-                    } else {
-                        console.log(`'Watched' successfully updated to 'To Watch`);
-                        callback(null);
-                    }
-                })
-            }
+            console.log(`${movieData.item_title} successfully updated in DB`);
+            callback(null, movie);
         }
     })
 }
-
 
 // connection.end();
 

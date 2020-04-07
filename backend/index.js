@@ -52,13 +52,15 @@ app.post('/movies', (req, res) => {
 });
 
 // handle put request 
-app.patch('/movies/:item_title', (req, res) => {
-    console.log('***************************************');
-    updateWatched((err, results) => {
+app.patch('/movies', (req, res) => {
+    // console.log('***************************************');
+    const movieData = req.body;
+    console.log(movieData, 'movieData');
+    updateWatched(movieData, (err, result) => {
         if (err) {
             res.status(500).end();
         } else {
-            res.status(200).send(results);
+            res.status(200).send(result);
         }
     });
 });
