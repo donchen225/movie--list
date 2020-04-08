@@ -1,7 +1,7 @@
 import AddMovie from './AddMovie.jsx';
 import SearchBar from './SearchBar.jsx';
 import MovieList from './MovieList.jsx';
-import WatchedListButtons from './WatchedListButtons.jsx';
+// import WatchedListButtons from './WatchedListButtons.jsx';
 
 import React from 'react';
 import axios from 'axios';
@@ -29,11 +29,11 @@ class App extends React.Component {
     };
     addMovie(title) {
         console.log('adding...')
-        var movieData = {item_title: title, watched: 'To Watch'};
+        var movieData = {item_title: title, watched: 0};
         axios.post('/movies', movieData)
             .then(() => {
                 this.setState({
-                    movieList: this.state.movieList.concat({item_title: title, watched: true}),
+                    movieList: this.state.movieList.concat(movieData),
                     addMovieInput: ''
                 });
             })
@@ -70,7 +70,7 @@ class App extends React.Component {
             }) 
     } 
     showWatchedList() {
-        var watchedList = this.state.movieList.filter(movieData => (movieData.watched.includes('Watched')))
+        var watchedList = this.state.movieList.filter(movieData => (movieData.watched ===0))
         console.log('watchedList', watchedList);
         this.setState({
             movieList: watchedList
@@ -78,7 +78,7 @@ class App extends React.Component {
     }
 
     showToWatchList() {
-        var toWatchList =  this.state.movieList.filter(movieData => (movieData.watched.includes('To Watch')))
+        var toWatchList =  this.state.movieList.filter(movieData => (movieData.watched === 1))
         console.log('toWatchList', toWatchList);
         this.setState({
             movieList: toWatchList
@@ -92,9 +92,9 @@ class App extends React.Component {
                 addMovie = {this.addMovie.bind(this)}
                 handleTextInputBox={this.handleTextInputBox.bind(this)}/>
 
-                <WatchedListButtons
+                {/*<WatchedListButtons
                 showWatchedList = {this.showWatchedList.bind(this)}
-                showToWatchList={this.showToWatchList.bind(this)}/>
+                showToWatchList={this.showToWatchList.bind(this)}/>*/}
 
                 <SearchBar 
                 searchInput = {this.state.searchInput}

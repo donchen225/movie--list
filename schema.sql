@@ -14,12 +14,12 @@ USE movie_db;
 CREATE TABLE movies (
   id INT AUTO_INCREMENT NOT NULL,
   item_title VARCHAR(100) NOT NULL,
-  watched VARCHAR(100) NOT NUll,
+  watched BOOLEAN NOT NUll,
   PRIMARY KEY (id)
 );
 
-INSERT INTO movies (item_title, watched) VALUES ('Mean Girls', 'To Watch');
-INSERT INTO movies (item_title, watched) VALUES ('Hackers', 'To Watch');
-INSERT INTO movies (item_title, watched) VALUES ('The Grey', 'To Watch');
-INSERT INTO movies (item_title, watched) VALUES ('Sunshine', 'To Watch');
-INSERT INTO movies (item_title, watched) VALUES ('Ex Machina', 'To Watch');
+INSERT INTO movies (item_title, watched) VALUES ('Mean Girls', true);
+INSERT INTO movies (item_title, watched) VALUES ('Hackers', false);
+INSERT INTO movies (item_title, watched) VALUES ('The Grey', false);
+INSERT INTO movies (item_title, watched) VALUES ('Sunshine', true);
+INSERT INTO movies (item_title, watched) VALUES ('Ex Machina', false);

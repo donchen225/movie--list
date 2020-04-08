@@ -57,14 +57,15 @@ const addMovie = (movieData, callback) => {
 // }
 
 const updateWatched = (movieData, callback) => {
-    const query = `UPDATE movies SET watched = !? WHERE id = ?`;
-    connection.query(query, [movieData.watched, movieData.id], (err, movie) => {
+    const toggledWatch = movieData.watched ? 0 : 1;
+    const query = `UPDATE movies SET watched = ? WHERE id = ?`;
+    connection.query(query, [toggledWatch, movieData.id], (err, movie) => {
         if (err) {
             console.log(`Error in updating watched property of ${movieData.item_title}`);
             callback(err);
         } else {
             console.log(`${movieData.item_title} successfully updated in DB`);
-            callback(null, movie);
+            callback(null, movieData);
         }
     })
 }
